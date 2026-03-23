@@ -33,6 +33,22 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         size++;
     }
 
+    @Override
+    public V getValue(K key) {
+        int index = getIndex(key);
+        for (Node<K, V> curr = table[index]; curr != null; curr = curr.next) {
+            if (key == curr.key || (key != null && key.equals(curr.key))) {
+                return curr.value;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
     private void resize() {
         Node<K, V>[] oldTable = table;
         int newCapacity = oldTable.length * CAPACITY_MULTIPLIER;
@@ -56,22 +72,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return Math.abs(key.hashCode()) % table.length;
     }
 
-    @Override
-    public V getValue(K key) {
-        int index = getIndex(key);
-        for (Node<K, V> curr = table[index]; curr != null; curr = curr.next) {
-            if (key == curr.key || (key != null && key.equals(curr.key))) {
-                return curr.value;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public int getSize() {
-        return size;
-    }
-
     private static class Node<K, V> {
         private final K key;
         private V value;
@@ -83,4 +83,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             this.next = next;
         }
     }
+
+
 }
