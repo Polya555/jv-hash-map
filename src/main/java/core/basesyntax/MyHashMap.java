@@ -4,6 +4,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private static final int DEFAULT_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    private static final int CAPACITY_MULTIPLIER = 2;
     private Node<K, V>[] table;
     private int size;
     private int threshold;
@@ -13,18 +14,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         this.loadFactor = DEFAULT_LOAD_FACTOR;
         this.table = new Node[DEFAULT_CAPACITY];
         this.threshold = (int) (DEFAULT_CAPACITY * loadFactor);
-    }
-
-    private static class Node<K, V> {
-        private final K key;
-        private V value;
-        private Node<K, V> next;
-
-        Node(K key, V value, Node<K, V> next) {
-            this.key = key;
-            this.value = value;
-            this.next = next;
-        }
     }
 
     @Override
@@ -46,7 +35,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private void resize() {
         Node<K, V>[] oldTable = table;
-        int newCapacity = oldTable.length * 2;
+        int newCapacity = oldTable.length * CAPACITY_MULTIPLIER;
         table = new Node[newCapacity];
         threshold = (int) (newCapacity * loadFactor);
         size = 0;
@@ -81,5 +70,17 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     @Override
     public int getSize() {
         return size;
+    }
+
+    private static class Node<K, V> {
+        private final K key;
+        private V value;
+        private Node<K, V> next;
+
+        Node(K key, V value, Node<K, V> next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
     }
 }
